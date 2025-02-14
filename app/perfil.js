@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground, Alert, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground, Alert, StyleSheet, Dimensions, Animated } from "react-native";
 import { getFavorites, removeFromFavorites } from "./hooks/useMovies";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -10,6 +10,7 @@ export default function FavoritesScreen() {
   const [loading, setLoading] = useState(true);
   const [currentBackground, setCurrentBackground] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [fadeAnim] = useState(new Animated.Value(1)); 
 
   useEffect(() => {
     const unsubscribe = getFavorites((favorites) => {
@@ -28,7 +29,27 @@ export default function FavoritesScreen() {
       `Are you sure of delete "${movieTitle}" from favorites?`,
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Delete", style: "destructive",onPress: () => removeFromFavorites(movieTitle) },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            Animated.timing(fadeAnim, {
+              toValue: 0, 
+              duration: 500, 
+              useNativeDriver: true,
+            }).start(() => {
+              removeFromFavorites(movieTitle);
+              const remainingMovies = movies.filter((movie) => movie.Title !== movieTitle);
+              setMovies(remainingMovies);
+              if (remainingMovies.length > 0) {
+                setCurrentBackground(remainingMovies[0].Poster); 
+              } else {
+                setCurrentBackground(null); 
+              }
+              fadeAnim.setValue(1);
+            });
+          },
+        },
       ]
     );
   };
@@ -60,21 +81,20 @@ export default function FavoritesScreen() {
               scrollEventThrottle={16}
             >
               {movies.map((movie, index) => (
-                <View key={index} style={styles.movieContainer}>
+                <Animated.View key={index} style={[styles.movieContainer, { opacity: fadeAnim }]}>
                   <Image source={{ uri: movie.Poster }} style={styles.poster} />
                   <View style={styles.infoContainer}>
                     <Text style={styles.movieTitle}>{movie.Title}</Text>
                     <Text style={styles.movieYear}>{movie.Director}</Text>
                     <TouchableOpacity onPress={() => handleRemove(movie.Title)} style={styles.deleteButton}>
-                      <Text style={styles.deleteButtonText}>Delete from favorites  </Text>
+                      <Text style={styles.deleteButtonText}>Delete  </Text>
                       <Ionicons name="trash-outline" size={24} color="white" />
                     </TouchableOpacity>
                   </View>
-                </View>
+                </Animated.View>
               ))}
             </ScrollView>
 
-            {/* Indicador de scroll */}
             <View style={styles.indicatorContainer}>
               {movies.map((_, index) => (
                 <View key={index} style={[styles.indicator, currentIndex === index && styles.activeIndicator]} />
@@ -95,7 +115,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -113,10 +133,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   poster: {
-    width: width * 0.60, // Póster un poco más grande
-    height: height * 0.4,
+    width: width * 0.64, 
+    height: height * 0.50,
     borderRadius: 10,
     marginBottom: 10,
+    objectFit: 'fill'
   },
   infoContainer: {
     alignItems: "center",
@@ -138,7 +159,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFA500",
     paddingVertical: 8,
     paddingHorizontal: 15,
-    borderRadius: 5,
+    borderRadius: 10,
+    width: width * 0.64,
+    justifyContent: 'center',
+    marginTop: 20
   },
   deleteButtonText: {
     color: "white",
@@ -161,5 +185,5 @@ const styles = StyleSheet.create({
   },
   activeIndicator: {
     backgroundColor: "white",
-  },
+  }
 });

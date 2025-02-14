@@ -25,14 +25,13 @@ export const addToFavorites = async (movie) => {
         const querySnapshot = await getDocs(q);
 
         if (!querySnapshot.empty) {
-            Alert.alert("Información", "La película ya está en favoritos.");
+            Alert.alert("Alert", "The movie is in favorites already!");
             return;
         }
 
         await addDoc(favoritesRef, { ...movie, favorite: true });
-        Alert.alert("Éxito", "Película agregada a favoritos.");
+        Alert.alert("Success", "Movie added to favorites");
     } catch (error) {
-        Alert.alert("Error", "No se pudo agregar a favoritos.");
         console.error("Error al agregar a favoritos:", error);
     }
 };
@@ -54,7 +53,6 @@ export const removeFromFavorites = async (movieTitle) => {
             await deleteDoc(doc(db, "favorites", docSnap.id));
         });
 
-        Alert.alert("Éxito", "Película eliminada de favoritos.");
     } catch (error) {
         Alert.alert("Error", "No se pudo eliminar la película de favoritos.");
         console.error("Error al eliminar de favoritos:", error);

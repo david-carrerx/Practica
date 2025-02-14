@@ -9,11 +9,14 @@ export default function Layout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: "#333333", // Gris oscuro
-            borderTopWidth: 0, // Opcional: elimina la línea superior
+            backgroundColor: "#222", 
+            borderTopWidth: 0, 
+            paddingTop: 10,
+            paddingBottom: 10,
           },
-          tabBarActiveTintColor: "#FFA500", // Naranja cuando está activo
-          tabBarInactiveTintColor: "#FFFFFF", // Blanco cuando está inactivo
+          tabBarActiveTintColor: "#FFA500", 
+          tabBarInactiveTintColor: "#FFFFFF", 
+          
         }}
       >
         <Tabs.Screen
