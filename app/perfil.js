@@ -63,13 +63,18 @@ export default function FavoritesScreen() {
   };
 
   return (
-    <ImageBackground source={{ uri: currentBackground }} style={styles.background} blurRadius={10}>
-      <View style={styles.overlay}>
+    <ImageBackground 
+      source={movies.length > 0 ? { uri: currentBackground } : null} 
+      style={styles.background} 
+      blurRadius={movies.length > 0 ? 10 : 0}
+    >
+      <View style={[styles.overlay, movies.length === 0 && styles.overlayDark]}>
         {loading ? (
           <ActivityIndicator size="large" color="white" />
         ) : movies.length === 0 ? (
           <View style={styles.noFavoritesContainer}>
-            <Text style={styles.noFavoritesText}>No hay películas en favoritos</Text>
+            <Image source={require("../assets/logo.png")} style={styles.logo} />
+            <Text style={styles.noFavoritesText}>There's empty</Text>
           </View>
         ) : (
           <>
@@ -112,6 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    backgroundColor: "black", 
   },
   overlay: {
     flex: 1,
@@ -119,9 +125,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  overlayDark: {
+    backgroundColor: "black", 
+  },
   noFavoritesContainer: {
     alignItems: "center",
-    marginTop: 20,
+  },
+  logo: {
+    width: 100, 
+    height: 100, 
+    marginBottom: 20, 
   },
   noFavoritesText: {
     fontSize: 18,
