@@ -1,4 +1,4 @@
-import { db } from "../../firebase/config";
+import { db } from "../firebase/config";
 import { Alert } from "react-native";
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 

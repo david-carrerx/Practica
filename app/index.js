@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, ActivityIndicator, ImageBackground, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { fetchMovie, addToFavorites } from "./hooks/useMovies";
+import { fetchMovie, addToFavorites } from "../hooks/useMovies";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeScreen() {
@@ -50,10 +50,10 @@ export default function HomeScreen() {
                     <>
                         <Image source={require("../assets/logo.png")} style={styles.logo} />
                         <Text style={styles.title}>CINEMA PARADISO</Text> 
-                        <Text style={styles.subtitle}>Search four favorites movies</Text> 
+                        <Text style={styles.subtitle}>Search for your favorite movies</Text> 
                         <TextInput placeholder="Search a movie..." value={searchTerm} onChangeText={setSearchTerm} style={styles.input} placeholderTextColor="#bbb"/>
                         <TouchableOpacity onPress={handleSearch} style={styles.button}>
-                            <Text style={styles.buttonText}>Search  </Text>
+                            <Text style={styles.buttonText}>Search</Text>
                             <Ionicons name="search" size={24} color="white" />
                         </TouchableOpacity>
                     </>
@@ -71,7 +71,7 @@ export default function HomeScreen() {
                                     </ImageBackground>
                                 </View>
                             ) : (
-                                <Text style={styles.noImage}>Imagen no disponible</Text>
+                                <Text style={styles.noImage}>Image not available</Text>
                             )}
                             <View style={styles.infoContainer}>
                                 <Text style={styles.movieTitle}>{movie?.Title}</Text>
@@ -103,33 +103,35 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        height: "100vh",  
     },
     overlay: {
-        ...StyleSheet.absoluteFillObject
+        ...StyleSheet.absoluteFillObject,
     }, 
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        width: "100%"
+        width: "100%",
+        padding: "10px",  
     },
     logo: {
-        width: 100,
-        height: 100,
-        marginBottom: 10
+        width: 120,
+        height: 120,
+        marginBottom: 10,
     },
     title: {
-        fontSize: 24,
+        fontSize: 32,
         color: 'white',
         fontWeight: '900',
-        marginBottom: 10
+        marginBottom: 10,
     },
     subtitle: { 
         fontSize: 18,
         color: "white",
         fontWeight: 'bold',
-        marginBottom: 10
+        marginBottom: 10,
     }, 
     gradientOverlayTop: {
         position: "absolute",
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: 30,
-        zIndex: 1
+        zIndex: 1,
     },
     gradientOverlayBottom: {
         position: "absolute",
@@ -145,17 +147,17 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: 20,
-        zIndex: 1 
+        zIndex: 1,
     },
     input: {
         width: "80%",
-        padding: 10,
+        padding: 12,
         borderWidth: 1,
         borderColor: "#333",
         borderRadius: 8,
         color: "white",
         marginBottom: 10,
-        backgroundColor: "#333"
+        backgroundColor: "#333",
     },
     button: { 
         width: '80%', 
@@ -170,48 +172,48 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 16,
         fontWeight: "bold",
-        marginLeft: 8
+        marginLeft: 8,
     },
     scrollContainer: {
         alignItems: "center",
-        paddingTop: 20
+        paddingTop: 20,
     },
     poster: {
         width: '100%',
         height: 450,
         marginBottom: 20,
         marginTop: 20,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
     },
     noImage: { 
         color: "white",
-        fontSize: 18
+        fontSize: 18,
     },
     infoContainer: {
         width: "100%",
         alignItems: "flex-start",
         backgroundColor: "rgba(0,0,0,0.7)",
         padding: 20,
-        borderRadius: 10
+        borderRadius: 10,
     },
     movieTitle: {
         fontSize: 28,
         fontWeight: "bold",
         color: "white",
         marginBottom: 10,
-        marginTop: -20
+        marginTop: -20,
     },
     details: {
         fontSize: 16,
         color: "#bbb",
         marginBottom: 5,
-        textAlign: "left"
+        textAlign: "left",
     },
     plot: {
         fontSize: 14,
         color: "white",
         textAlign: "justify",
-        marginTop: 10
+        marginTop: 10,
     },
     favButton: {
         width: '90%',
@@ -221,13 +223,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFA500",
         padding: 10,
         borderRadius: 8,
-        marginTop: 20
+        marginTop: 20,
     },
     favButtonText: {
         color: "white",
         fontSize: 16,
         fontWeight: "bold",
-        marginLeft: 8
+        marginLeft: 8,
     },
     backButton: {
         width: '90%',
@@ -237,21 +239,15 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFA500",
         padding: 10,
         borderRadius: 8,
-        marginTop: 20,
-        marginBottom: 30
+        marginTop: 10,
     },
     backButtonText: {
         color: "white",
         fontSize: 16,
         fontWeight: "bold",
-        marginLeft: 8
+        marginLeft: 8,
     },
     loader: {
-        position: "absolute",
-        top: "50%"
+        marginTop: 20,
     },
-    movieContainer: {
-        width: "100%",
-        alignItems: "center"
-    }
 });

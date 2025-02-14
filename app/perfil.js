@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground, Alert, StyleSheet, Dimensions, Animated } from "react-native";
-import { getFavorites, removeFromFavorites } from "./hooks/useMovies";
+import { View, Text, Image, TouchableOpacity, ScrollView, ActivityIndicator, ImageBackground, Alert, StyleSheet, Dimensions, Animated, Platform } from "react-native";
+import { getFavorites, removeFromFavorites } from "../hooks/useMovies";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -10,7 +10,7 @@ export default function FavoritesScreen() {
   const [loading, setLoading] = useState(true);
   const [currentBackground, setCurrentBackground] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [fadeAnim] = useState(new Animated.Value(1)); 
+  const [fadeAnim] = useState(new Animated.Value(1));
 
   useEffect(() => {
     const unsubscribe = getFavorites((favorites) => {
@@ -34,17 +34,17 @@ export default function FavoritesScreen() {
           style: "destructive",
           onPress: () => {
             Animated.timing(fadeAnim, {
-              toValue: 0, 
-              duration: 500, 
+              toValue: 0,
+              duration: 500,
               useNativeDriver: true,
             }).start(() => {
               removeFromFavorites(movieTitle);
               const remainingMovies = movies.filter((movie) => movie.Title !== movieTitle);
               setMovies(remainingMovies);
               if (remainingMovies.length > 0) {
-                setCurrentBackground(remainingMovies[0].Poster); 
+                setCurrentBackground(remainingMovies[0].Poster);
               } else {
-                setCurrentBackground(null); 
+                setCurrentBackground(null);
               }
               fadeAnim.setValue(1);
             });
@@ -74,7 +74,7 @@ export default function FavoritesScreen() {
         ) : movies.length === 0 ? (
           <View style={styles.noFavoritesContainer}>
             <Image source={require("../assets/logo.png")} style={styles.logo} />
-            <Text style={styles.noFavoritesText}>There's empty</Text>
+            <Text style={styles.noFavoritesText}>Is empty</Text>
           </View>
         ) : (
           <>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: "black", 
+    backgroundColor: "black",
   },
   overlay: {
     flex: 1,
@@ -126,15 +126,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlayDark: {
-    backgroundColor: "black", 
+    backgroundColor: "black",
   },
   noFavoritesContainer: {
     alignItems: "center",
   },
   logo: {
-    width: 100, 
-    height: 100, 
-    marginBottom: 20, 
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   noFavoritesText: {
     fontSize: 18,
@@ -146,11 +146,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   poster: {
-    width: width * 0.64, 
-    height: height * 0.50,
+    width: width * 0.60, // Reducir el tamaño del póster para la web
+    height: height * 0.45, // Ajuste para un tamaño mejor en web
     borderRadius: 10,
     marginBottom: 10,
-    objectFit: 'fill'
+    objectFit: "fill",
   },
   infoContainer: {
     alignItems: "center",
@@ -174,14 +174,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 10,
     width: width * 0.64,
-    justifyContent: 'center',
-    marginTop: 20
+    justifyContent: "center",
+    marginTop: 20,
   },
   deleteButtonText: {
     color: "white",
     fontSize: 16,
     marginLeft: 5,
-    fontWeight: '600'
+    fontWeight: "600",
   },
   indicatorContainer: {
     flexDirection: "row",
@@ -198,5 +198,5 @@ const styles = StyleSheet.create({
   },
   activeIndicator: {
     backgroundColor: "white",
-  }
+  },
 });
