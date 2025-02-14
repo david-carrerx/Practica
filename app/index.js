@@ -53,7 +53,7 @@ export default function HomeScreen() {
                         <Text style={styles.subtitle}>Search for your favorite movies</Text> 
                         <TextInput placeholder="Search a movie..." value={searchTerm} onChangeText={setSearchTerm} style={styles.input} placeholderTextColor="#bbb"/>
                         <TouchableOpacity onPress={handleSearch} style={styles.button}>
-                            <Text style={styles.buttonText}>Search</Text>
+                            <Text style={styles.buttonText}>Search  </Text>
                             <Ionicons name="search" size={24} color="white" />
                         </TouchableOpacity>
                     </>

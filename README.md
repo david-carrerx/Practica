@@ -27,3 +27,7 @@ cd cinema-paradiso
 npm install
 npx expo start
 
+Para abrir el proyecto usa el siguiente link
+
+https://expo.dev/preview/update?message=Funcion&updateRuntimeVersion=1.0.0&createdAt=2025-02-14T20%3A32%3A34.362Z&slug=exp&projectId=e2a5f24e-55f4-48c9-be24-032fb3703532&group=feaa0c80-b9bd-41c1-b17e-c3502be4105f
+
